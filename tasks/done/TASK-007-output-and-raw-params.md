@@ -81,7 +81,15 @@ Prefer option functions for construction-time settings and explicit methods for 
 
 - Question: Should invalid indexes return errors or panic?
 - Recommended default: return errors for user-provided runtime values; panic only for programmer-only fixed internal mistakes.
-- Answer:
+- Answer: return errors for public setters that accept runtime values.
+
+## Implementation Outcome
+
+- Added public `OutputParams` and `RawUnpackParams` mirrors with full get/set APIs.
+- Added construction-time options and ergonomic mutable setters for LibRaw parameter helpers.
+- Added validation for indexed setters, output bit depth, negative enum-like values, and fixed `p4shot_order` length.
+- Documented field-level coverage, including unsupported `custom_camera_strings`.
+- Verified parameter application through the processing pipeline.
 
 ## Git And PR
 
@@ -104,4 +112,3 @@ Prefer option functions for construction-time settings and explicit methods for 
 
 - Risk: direct struct mirrors can become unidiomatic.
 - Mitigation: keep a low-level complete mirror and layer ergonomic helpers separately.
-

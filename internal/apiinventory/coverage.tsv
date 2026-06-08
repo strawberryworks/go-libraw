@@ -70,21 +70,21 @@ function	libraw_open_wfile_ex	deferred	tracked for a future workflowr task
 function	libraw_raw2image	wrapped	wrapped by Processor.Raw2Image
 function	libraw_recycle	wrapped	wrapped by Processor.Recycle
 function	libraw_recycle_datastream	wrapped	wrapped by Processor.RecycleDatastream
-function	libraw_set_adjust_maximum_thr	deferred	tracked for a future workflowr task
-function	libraw_set_bright	deferred	tracked for a future workflowr task
+function	libraw_set_adjust_maximum_thr	wrapped	wrapped by Processor.SetAdjustMaximumThreshold
+function	libraw_set_bright	wrapped	wrapped by Processor.SetBright
 function	libraw_set_dataerror_handler	deferred	tracked for a future workflowr task
-function	libraw_set_demosaic	deferred	tracked for a future workflowr task
+function	libraw_set_demosaic	wrapped	wrapped by Processor.SetDemosaic
 function	libraw_set_exifparser_handler	deferred	tracked for a future workflowr task
-function	libraw_set_fbdd_noiserd	deferred	tracked for a future workflowr task
-function	libraw_set_gamma	deferred	tracked for a future workflowr task
-function	libraw_set_highlight	deferred	tracked for a future workflowr task
+function	libraw_set_fbdd_noiserd	wrapped	wrapped by Processor.SetFBDDNoiseReduction
+function	libraw_set_gamma	wrapped	wrapped by Processor.SetGamma
+function	libraw_set_highlight	wrapped	wrapped by Processor.SetHighlight
 function	libraw_set_makernotes_handler	deferred	tracked for a future workflowr task
-function	libraw_set_no_auto_bright	deferred	tracked for a future workflowr task
-function	libraw_set_output_bps	deferred	tracked for a future workflowr task
-function	libraw_set_output_color	deferred	tracked for a future workflowr task
-function	libraw_set_output_tif	deferred	tracked for a future workflowr task
+function	libraw_set_no_auto_bright	wrapped	wrapped by Processor.SetNoAutoBright
+function	libraw_set_output_bps	wrapped	wrapped by Processor.SetOutputBPS
+function	libraw_set_output_color	wrapped	wrapped by Processor.SetOutputColor
+function	libraw_set_output_tif	wrapped	wrapped by Processor.SetOutputTIFF
 function	libraw_set_progress_handler	deferred	tracked for a future workflowr task
-function	libraw_set_user_mul	deferred	tracked for a future workflowr task
+function	libraw_set_user_mul	wrapped	wrapped by Processor.SetUserMul
 function	libraw_strerror	wrapped	exposed as StrError and ErrorCode.String
 function	libraw_strprogress	wrapped	exposed as StrProgress and Progress.String
 function	libraw_subtract_black	wrapped	wrapped by Processor.SubtractBlack
@@ -181,13 +181,13 @@ struct	libraw_metadata_common_t	deferred	tracked for a future workflowr task
 struct	libraw_nikon_makernotes_t	deferred	tracked for a future workflowr task
 struct	libraw_nikonlens_t	deferred	tracked for a future workflowr task
 struct	libraw_olympus_makernotes_t	deferred	tracked for a future workflowr task
-struct	libraw_output_params_t	deferred	tracked for a future workflowr task
+struct	libraw_output_params_t	wrapped	wrapped by OutputParams; field coverage documented in docs/libraw-params-coverage.md
 struct	libraw_p1_makernotes_t	deferred	tracked for a future workflowr task
 struct	libraw_panasonic_makernotes_t	deferred	tracked for a future workflowr task
 struct	libraw_pentax_makernotes_t	deferred	tracked for a future workflowr task
 struct	libraw_processed_image_t	deferred	tracked for a future workflowr task
 struct	libraw_raw_inset_crop_t	deferred	tracked for a future workflowr task
-struct	libraw_raw_unpack_params_t	deferred	tracked for a future workflowr task
+struct	libraw_raw_unpack_params_t	wrapped	wrapped by RawUnpackParams except custom_camera_strings, documented unsupported in docs/libraw-params-coverage.md
 struct	libraw_rawdata_t	deferred	tracked for a future workflowr task
 struct	libraw_ricoh_makernotes_t	deferred	tracked for a future workflowr task
 struct	libraw_samsung_makernotes_t	deferred	tracked for a future workflowr task

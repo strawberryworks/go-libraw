@@ -21,5 +21,6 @@
 ## Operations
 
 - Required commands pass.
+- Required PR checks pass before merge.
 - No secrets, local paths, or debug artifacts are committed.
 - PR description includes testing and risk notes.

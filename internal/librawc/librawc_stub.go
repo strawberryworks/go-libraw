@@ -100,6 +100,109 @@ type ProcessedImage struct {
 	Data   []byte
 }
 
+// OutputParams mirrors libraw_output_params_t when cgo is available.
+type OutputParams struct {
+	Greybox          [4]uint32
+	Cropbox          [4]uint32
+	Aber             [4]float64
+	Gamm             [6]float64
+	UserMul          [4]float32
+	Bright           float32
+	Threshold        float32
+	HalfSize         int
+	FourColorRGB     int
+	Highlight        int
+	UseAutoWB        int
+	UseCameraWB      int
+	UseCameraMatrix  int
+	OutputColor      int
+	OutputProfile    string
+	CameraProfile    string
+	BadPixels        string
+	DarkFrame        string
+	OutputBPS        int
+	OutputTIFF       int
+	OutputFlags      int
+	UserFlip         int
+	UserQual         int
+	UserBlack        int
+	UserCblack       [4]int
+	UserSat          int
+	MedPasses        int
+	AutoBrightThr    float32
+	AdjustMaximumThr float32
+	NoAutoBright     int
+	UseFujiRotate    int
+	UseP1Correction  int
+	GreenMatching    int
+	DCBIterations    int
+	DCBEnhanceFL     int
+	FBDDNoiseRD      int
+	ExpCorrec        int
+	ExpShift         float32
+	ExpPreser        float32
+	NoAutoScale      int
+	NoInterpolation  int
+}
+
+// RawUnpackParams mirrors libraw_raw_unpack_params_t when cgo is available.
+type RawUnpackParams struct {
+	UseRawSpeed             int
+	UseDNGSDK               int
+	Options                 uint32
+	ShotSelect              uint32
+	Specials                uint32
+	MaxRawMemoryMB          uint32
+	SonyARW2PosterizationTh int
+	CoolscanNEFGamma        float32
+	P4ShotOrder             string
+}
+
+// GetOutputParams reports zero values when cgo is disabled.
+func (h *Handle) GetOutputParams() OutputParams { return OutputParams{} }
+
+// SetOutputParams is a no-op when cgo is disabled.
+func (h *Handle) SetOutputParams(OutputParams) {}
+
+// GetRawUnpackParams reports zero values when cgo is disabled.
+func (h *Handle) GetRawUnpackParams() RawUnpackParams { return RawUnpackParams{} }
+
+// SetRawUnpackParams is a no-op when cgo is disabled.
+func (h *Handle) SetRawUnpackParams(RawUnpackParams) {}
+
+// SetDemosaic is a no-op when cgo is disabled.
+func (h *Handle) SetDemosaic(int) {}
+
+// SetOutputColor is a no-op when cgo is disabled.
+func (h *Handle) SetOutputColor(int) {}
+
+// SetAdjustMaximumThr is a no-op when cgo is disabled.
+func (h *Handle) SetAdjustMaximumThr(float32) {}
+
+// SetUserMul is a no-op when cgo is disabled.
+func (h *Handle) SetUserMul(int, float32) {}
+
+// SetOutputBPS is a no-op when cgo is disabled.
+func (h *Handle) SetOutputBPS(int) {}
+
+// SetGamma is a no-op when cgo is disabled.
+func (h *Handle) SetGamma(int, float32) {}
+
+// SetNoAutoBright is a no-op when cgo is disabled.
+func (h *Handle) SetNoAutoBright(int) {}
+
+// SetBright is a no-op when cgo is disabled.
+func (h *Handle) SetBright(float32) {}
+
+// SetHighlight is a no-op when cgo is disabled.
+func (h *Handle) SetHighlight(int) {}
+
+// SetFBDDNoiseRD is a no-op when cgo is disabled.
+func (h *Handle) SetFBDDNoiseRD(int) {}
+
+// SetOutputTIFF is a no-op when cgo is disabled.
+func (h *Handle) SetOutputTIFF(int) {}
+
 // MakeMemImage reports that cgo is required for LibRaw.
 func (h *Handle) MakeMemImage() (ProcessedImage, int) {
 	return ProcessedImage{}, int(errorCodeCGODisabled)

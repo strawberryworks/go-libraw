@@ -15,7 +15,9 @@ var ErrClosed = errors.New("libraw: processor is closed")
 type Option func(*options)
 
 type options struct {
-	flags uint
+	flags           uint
+	outputParams    *OutputParams
+	rawUnpackParams *RawUnpackParams
 }
 
 // WithFlags sets the flags passed to LibRaw during handle initialization.
@@ -48,6 +50,16 @@ func NewProcessor(opts ...Option) (*Processor, error) {
 	handle, err := librawc.New(cfg.flags)
 	if err != nil {
 		return nil, fmt.Errorf("libraw: create processor: %w", err)
+	}
+	if cfg.outputParams != nil {
+		handle.SetOutputParams(librawc.OutputParams(*cfg.outputParams))
+	}
+	if cfg.rawUnpackParams != nil {
+		if len([]byte(cfg.rawUnpackParams.P4ShotOrder)) > p4ShotOrderLen {
+			handle.Close()
+			return nil, fmt.Errorf("libraw: P4ShotOrder length %d exceeds %d bytes", len([]byte(cfg.rawUnpackParams.P4ShotOrder)), p4ShotOrderLen)
+		}
+		handle.SetRawUnpackParams(librawc.RawUnpackParams(*cfg.rawUnpackParams))
 	}
 
 	return &Processor{handle: handle}, nil

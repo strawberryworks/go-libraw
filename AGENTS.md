@@ -198,6 +198,8 @@ Rules:
 
 - Do not create or push a PR until required checks and coverage pass.
 - Do not create a PR if the task is blocked.
+- Do not merge a PR until all required checks pass successfully.
+- Treat pending, skipped, cancelled, or failed required checks as not mergeable unless the repository policy explicitly allows them.
 - If `gh` is missing, not authenticated, or the remote is not GitHub, prepare the PR body locally and report the exact command the user can run.
 - If labels, reviewers, or assignees are defined by the task, include them in the `gh pr create` command when supported.
 - If no reviewers or labels are defined, omit them.
@@ -212,6 +214,7 @@ A task is done when:
 - Required tests/checks have passed.
 - Coverage requirements are met.
 - The diff has been reviewed.
+- Any PR intended for merge has all required checks passing.
 - Commits and PR draft are ready, or the PR has been opened when requested.
 
 If any required check or coverage target cannot be satisfied, the task is blocked unless an explicit exception is granted.
