@@ -4,6 +4,114 @@ package librawc
 
 /*
 #include <libraw/libraw.h>
+
+static short go_libraw_canon_auto_rotate_mode(libraw_canon_makernotes_t *p) {
+#if LIBRAW_VERSION >= LIBRAW_MAKE_VERSION(0,22,0)
+	return p->AutoRotateMode;
+#else
+	(void)p;
+	return 0;
+#endif
+}
+
+static const char *go_libraw_fuji_model(libraw_fuji_info_t *p) {
+#if LIBRAW_VERSION >= LIBRAW_MAKE_VERSION(0,22,0)
+	return p->FujiModel;
+#else
+	(void)p;
+	return "";
+#endif
+}
+
+static const char *go_libraw_fuji_model2(libraw_fuji_info_t *p) {
+#if LIBRAW_VERSION >= LIBRAW_MAKE_VERSION(0,22,0)
+	return p->FujiModel2;
+#else
+	(void)p;
+	return "";
+#endif
+}
+
+static unsigned go_libraw_nikon_picture_control_version(libraw_nikon_makernotes_t *p) {
+#if LIBRAW_VERSION >= LIBRAW_MAKE_VERSION(0,22,0)
+	return p->PictureControlVersion;
+#else
+	(void)p;
+	return 0;
+#endif
+}
+
+static const char *go_libraw_nikon_picture_control_name(libraw_nikon_makernotes_t *p) {
+#if LIBRAW_VERSION >= LIBRAW_MAKE_VERSION(0,22,0)
+	return p->PictureControlName;
+#else
+	(void)p;
+	return "";
+#endif
+}
+
+static const char *go_libraw_nikon_picture_control_base(libraw_nikon_makernotes_t *p) {
+#if LIBRAW_VERSION >= LIBRAW_MAKE_VERSION(0,22,0)
+	return p->PictureControlBase;
+#else
+	(void)p;
+	return "";
+#endif
+}
+
+static const char *go_libraw_nikon_shot_info_firmware(libraw_nikon_makernotes_t *p) {
+#if LIBRAW_VERSION >= LIBRAW_MAKE_VERSION(0,22,0)
+	return p->ShotInfoFirmware;
+#else
+	(void)p;
+	return "";
+#endif
+}
+
+static unsigned go_libraw_nikon_burst_table_len(libraw_nikon_makernotes_t *p) {
+#if LIBRAW_VERSION >= LIBRAW_MAKE_VERSION(0,22,0)
+	return p->BurstTable_0x0056_len;
+#else
+	(void)p;
+	return 0;
+#endif
+}
+
+static int go_libraw_nikon_burst_table_has_data(libraw_nikon_makernotes_t *p) {
+#if LIBRAW_VERSION >= LIBRAW_MAKE_VERSION(0,22,0)
+	return p->BurstTable_0x0056 != 0;
+#else
+	(void)p;
+	return 0;
+#endif
+}
+
+static unsigned short go_libraw_nikon_burst_table_ver(libraw_nikon_makernotes_t *p) {
+#if LIBRAW_VERSION >= LIBRAW_MAKE_VERSION(0,22,0)
+	return p->BurstTable_0x0056_ver;
+#else
+	(void)p;
+	return 0;
+#endif
+}
+
+static unsigned short go_libraw_nikon_burst_table_gid(libraw_nikon_makernotes_t *p) {
+#if LIBRAW_VERSION >= LIBRAW_MAKE_VERSION(0,22,0)
+	return p->BurstTable_0x0056_gid;
+#else
+	(void)p;
+	return 0;
+#endif
+}
+
+static unsigned char go_libraw_nikon_burst_table_fnum(libraw_nikon_makernotes_t *p) {
+#if LIBRAW_VERSION >= LIBRAW_MAKE_VERSION(0,22,0)
+	return p->BurstTable_0x0056_fnum;
+#else
+	(void)p;
+	return 0;
+#endif
+}
 */
 import "C"
 
@@ -498,7 +606,7 @@ func convertCanonMakerNotes(c *C.libraw_canon_makernotes_t) CanonMakerNotes {
 		FlashGuideNumber: int16(c.FlashGuideNumber), ContinuousDrive: int16(c.ContinuousDrive),
 		SensorWidth: int16(c.SensorWidth), SensorHeight: int16(c.SensorHeight),
 		AFMicroAdjMode: int(c.AFMicroAdjMode), AFMicroAdjValue: float32(c.AFMicroAdjValue),
-		MakernotesFlip: int16(c.MakernotesFlip), AutoRotateMode: int16(c.AutoRotateMode),
+		MakernotesFlip: int16(c.MakernotesFlip), AutoRotateMode: int16(C.go_libraw_canon_auto_rotate_mode(c)),
 		RecordMode: int16(c.RecordMode), SRAWQuality: int16(c.SRAWQuality), WBI: uint32(c.wbi),
 		RFLensID: int16(c.RF_lensID), AutoLightingOptimizer: int(c.AutoLightingOptimizer),
 		HighlightTonePriority: int(c.HighlightTonePriority), Quality: int16(c.Quality), CanonLog: int(c.CanonLog),
@@ -542,8 +650,8 @@ func convertFujiMakerNotes(f *C.libraw_fuji_info_t) FujiMakerNotes {
 		FilmMode: uint16(f.FilmMode), DynamicRangeSetting: uint16(f.DynamicRangeSetting),
 		DevelopmentDynamicRange: uint16(f.DevelopmentDynamicRange), AutoDynamicRange: uint16(f.AutoDynamicRange),
 		DRangePriority: uint16(f.DRangePriority), DRangePriorityAuto: uint16(f.DRangePriorityAuto),
-		DRangePriorityFixed: uint16(f.DRangePriorityFixed), FujiModel: cString(&f.FujiModel[0]),
-		FujiModel2: cString(&f.FujiModel2[0]), BrightnessCompensation: float32(f.BrightnessCompensation),
+		DRangePriorityFixed: uint16(f.DRangePriorityFixed), FujiModel: C.GoString(C.go_libraw_fuji_model(f)),
+		FujiModel2: C.GoString(C.go_libraw_fuji_model2(f)), BrightnessCompensation: float32(f.BrightnessCompensation),
 		FocusMode: uint16(f.FocusMode), AFMode: uint16(f.AFMode), PrioritySettings: uint16(f.PrioritySettings),
 		FocusSettings: uint32(f.FocusSettings), AFCSettings: uint32(f.AF_C_Settings), FocusWarning: uint16(f.FocusWarning),
 		FlashMode: uint16(f.FlashMode), WBPreset: uint16(f.WB_Preset), ShutterType: uint16(f.ShutterType),
@@ -584,11 +692,11 @@ func convertNikonMakerNotes(n *C.libraw_nikon_makernotes_t) NikonMakerNotes {
 		LensDataVersion: uint32(n.LensDataVersion), FlashInfoVersion: uint32(n.FlashInfoVersion), ColorBalanceVersion: uint32(n.ColorBalanceVersion),
 		Key: uint8(n.key), HighSpeedCropFormat: uint16(n.HighSpeedCropFormat), SensorHighSpeedCrop: convertSensorHighSpeedCrop(&n.SensorHighSpeedCrop),
 		SensorWidth: uint16(n.SensorWidth), SensorHeight: uint16(n.SensorHeight), ActiveDLighting2: uint16(n.Active_D_Lighting),
-		PictureControlVersion: uint32(n.PictureControlVersion), PictureControlName: cString(&n.PictureControlName[0]),
-		PictureControlBase: cString(&n.PictureControlBase[0]), ShotInfoVersion: uint32(n.ShotInfoVersion),
-		ShotInfoFirmware: cString(&n.ShotInfoFirmware[0]), BurstTable0056Len: uint32(n.BurstTable_0x0056_len),
-		HasBurstTable0056: n.BurstTable_0x0056 != nil, BurstTable0056Ver: uint16(n.BurstTable_0x0056_ver),
-		BurstTable0056GID: uint16(n.BurstTable_0x0056_gid), BurstTable0056FNum: uint8(n.BurstTable_0x0056_fnum),
+		PictureControlVersion: uint32(C.go_libraw_nikon_picture_control_version(n)), PictureControlName: C.GoString(C.go_libraw_nikon_picture_control_name(n)),
+		PictureControlBase: C.GoString(C.go_libraw_nikon_picture_control_base(n)), ShotInfoVersion: uint32(n.ShotInfoVersion),
+		ShotInfoFirmware: C.GoString(C.go_libraw_nikon_shot_info_firmware(n)), BurstTable0056Len: uint32(C.go_libraw_nikon_burst_table_len(n)),
+		HasBurstTable0056: C.go_libraw_nikon_burst_table_has_data(n) != 0, BurstTable0056Ver: uint16(C.go_libraw_nikon_burst_table_ver(n)),
+		BurstTable0056GID: uint16(C.go_libraw_nikon_burst_table_gid(n)), BurstTable0056FNum: uint8(C.go_libraw_nikon_burst_table_fnum(n)),
 		MakernotesFlip: int16(n.MakernotesFlip), RollAngle: float64(n.RollAngle), PitchAngle: float64(n.PitchAngle), YawAngle: float64(n.YawAngle),
 	}
 	for i := 0; i < 7; i++ {
