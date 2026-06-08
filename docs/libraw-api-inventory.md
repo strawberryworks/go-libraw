@@ -16,7 +16,7 @@ Statuses:
 
 | Symbol | Header | Status | Note |
 | --- | --- | --- | --- |
-| `libraw_COLOR` | `libraw.h` | `deferred` | tracked for a future workflowr task |
+| `libraw_COLOR` | `libraw.h` | `wrapped` | wrapped by Processor.Color |
 | `libraw_adjust_sizes_info_only` | `libraw.h` | `wrapped` | wrapped by Processor.AdjustSizesInfoOnly |
 | `libraw_adjust_to_raw_inset_crop` | `libraw.h` | `deferred` | tracked for a future workflowr task |
 | `libraw_cameraCount` | `libraw.h` | `deferred` | tracked for a future workflowr task |
@@ -37,8 +37,8 @@ Statuses:
 | `libraw_get_iwidth` | `libraw.h` | `deferred` | tracked for a future workflowr task |
 | `libraw_get_lensinfo` | `libraw.h` | `deferred` | tracked for a future workflowr task |
 | `libraw_get_pre_mul` | `libraw.h` | `deferred` | tracked for a future workflowr task |
-| `libraw_get_raw_height` | `libraw.h` | `deferred` | tracked for a future workflowr task |
-| `libraw_get_raw_width` | `libraw.h` | `deferred` | tracked for a future workflowr task |
+| `libraw_get_raw_height` | `libraw.h` | `wrapped` | wrapped by Processor.RawHeight |
+| `libraw_get_raw_width` | `libraw.h` | `wrapped` | wrapped by Processor.RawWidth |
 | `libraw_get_rgb_cam` | `libraw.h` | `deferred` | tracked for a future workflowr task |
 | `libraw_init` | `libraw.h` | `internal` | used by NewProcessor |
 | `libraw_open_bayer` | `libraw.h` | `wrapped` | wrapped by Processor.OpenBayer |
@@ -220,7 +220,7 @@ Statuses:
 | `libraw_processed_image_t` | `libraw_types.h` | `wrapped` | wrapped by ProcessedImage |
 | `libraw_raw_inset_crop_t` | `libraw_types.h` | `wrapped` | wrapped by RawInsetCrop |
 | `libraw_raw_unpack_params_t` | `libraw_types.h` | `wrapped` | wrapped by RawUnpackParams except custom_camera_strings, documented unsupported in docs/libraw-params-coverage.md |
-| `libraw_rawdata_t` | `libraw_types.h` | `wrapped` | wrapped by RawDataSummary; raw pixel buffers summarized |
+| `libraw_rawdata_t` | `libraw_types.h` | `wrapped` | summarized by RawDataSummary; raw_image bytes via Processor.RawImage |
 | `libraw_ricoh_makernotes_t` | `libraw_types.h` | `wrapped` | wrapped by RicohMakerNotes |
 | `libraw_samsung_makernotes_t` | `libraw_types.h` | `wrapped` | wrapped by SamsungMakerNotes |
 | `libraw_sensor_highspeed_crop_t` | `libraw_types.h` | `wrapped` | wrapped by SensorHighSpeedCrop |
@@ -228,7 +228,7 @@ Statuses:
 | `libraw_sony_info_t` | `libraw_types.h` | `wrapped` | wrapped by SonyMakerNotes |
 | `libraw_thumbnail_item_t` | `libraw_types.h` | `wrapped` | wrapped by ThumbnailItem |
 | `libraw_thumbnail_list_t` | `libraw_types.h` | `wrapped` | wrapped by ThumbnailList |
-| `libraw_thumbnail_t` | `libraw_types.h` | `wrapped` | wrapped by Thumbnail summary; data pointer not exposed |
+| `libraw_thumbnail_t` | `libraw_types.h` | `wrapped` | summarized by Thumbnail; bytes via Processor.ThumbnailData |
 
 ## Versions
 
