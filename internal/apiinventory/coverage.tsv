@@ -36,7 +36,7 @@ enum	LibRaw_sony_cameratypes	wrapped	generated constants expose enum members
 enum	LibRaw_thumbnail_formats	wrapped	generated constants expose enum members
 enum	LibRaw_warnings	wrapped	generated constants expose enum members
 enum	LibRaw_whitebalance_code	wrapped	generated constants expose enum members
-function	libraw_COLOR	deferred	tracked for a future workflowr task
+function	libraw_COLOR	wrapped	wrapped by Processor.Color
 function	libraw_adjust_sizes_info_only	wrapped	wrapped by Processor.AdjustSizesInfoOnly
 function	libraw_adjust_to_raw_inset_crop	deferred	tracked for a future workflowr task
 function	libraw_cameraCount	deferred	tracked for a future workflowr task
@@ -57,8 +57,8 @@ function	libraw_get_iparams	deferred	tracked for a future workflowr task
 function	libraw_get_iwidth	deferred	tracked for a future workflowr task
 function	libraw_get_lensinfo	deferred	tracked for a future workflowr task
 function	libraw_get_pre_mul	deferred	tracked for a future workflowr task
-function	libraw_get_raw_height	deferred	tracked for a future workflowr task
-function	libraw_get_raw_width	deferred	tracked for a future workflowr task
+function	libraw_get_raw_height	wrapped	wrapped by Processor.RawHeight
+function	libraw_get_raw_width	wrapped	wrapped by Processor.RawWidth
 function	libraw_get_rgb_cam	deferred	tracked for a future workflowr task
 function	libraw_init	internal	used by NewProcessor
 function	libraw_open_bayer	wrapped	wrapped by Processor.OpenBayer
@@ -188,7 +188,7 @@ struct	libraw_pentax_makernotes_t	wrapped	wrapped by PentaxMakerNotes
 struct	libraw_processed_image_t	wrapped	wrapped by ProcessedImage
 struct	libraw_raw_inset_crop_t	wrapped	wrapped by RawInsetCrop
 struct	libraw_raw_unpack_params_t	wrapped	wrapped by RawUnpackParams except custom_camera_strings, documented unsupported in docs/libraw-params-coverage.md
-struct	libraw_rawdata_t	wrapped	wrapped by RawDataSummary; raw pixel buffers summarized
+struct	libraw_rawdata_t	wrapped	summarized by RawDataSummary; raw_image bytes via Processor.RawImage
 struct	libraw_ricoh_makernotes_t	wrapped	wrapped by RicohMakerNotes
 struct	libraw_samsung_makernotes_t	wrapped	wrapped by SamsungMakerNotes
 struct	libraw_sensor_highspeed_crop_t	wrapped	wrapped by SensorHighSpeedCrop
@@ -196,7 +196,7 @@ struct	libraw_shootinginfo_t	wrapped	wrapped by ShootingInfo
 struct	libraw_sony_info_t	wrapped	wrapped by SonyMakerNotes
 struct	libraw_thumbnail_item_t	wrapped	wrapped by ThumbnailItem
 struct	libraw_thumbnail_list_t	wrapped	wrapped by ThumbnailList
-struct	libraw_thumbnail_t	wrapped	wrapped by Thumbnail summary; data pointer not exposed
+struct	libraw_thumbnail_t	wrapped	summarized by Thumbnail; bytes via Processor.ThumbnailData
 version	LIBRAW_MAJOR_VERSION	wrapped	generated numeric version constant
 version	LIBRAW_MINOR_VERSION	wrapped	generated numeric version constant
 version	LIBRAW_PATCH_VERSION	wrapped	generated numeric version constant

@@ -81,7 +81,13 @@ Do not expose unsafe slices into C memory unless the method name and documentati
 
 - Question: Should APIs prefer zero-copy unsafe views or copied Go byte slices?
 - Recommended default: copied slices by default; optional unsafe view methods may be added with explicit naming.
-- Answer:
+- Answer: Copied slices. `RawImage`, `ThumbnailData`, and `MemImage`/`MemThumb` all return Go-owned copies that remain valid after Close. No zero-copy unsafe views are exposed in this task; they can be added later behind explicit `Unsafe*` naming if needed.
+
+## Implementation Outcome
+
+- Added `Processor.Color` (libraw_COLOR), `RawWidth`/`RawHeight` (libraw_get_raw_*), `RawImage` (copied single-channel Bayer samples from rawdata.raw_image, row-padded length (raw_pitch/2)*raw_height), and `ThumbnailData` (copied thumbnail bytes from thumbnail.thumb).
+- Processed-image bytes were already wrapped by `MemImage`/`MemThumb` (TASK-006); raw/thumbnail summaries by metadata (TASK-008). This task adds the actual byte/sample buffers, which the coverage map previously listed as "data pointer not exposed".
+- All buffers are copied into Go memory; `ErrNoImageData` is returned when the relevant decode step has not run or the format lacks that buffer. Tests confirm copies survive Close.
 
 ## Git And PR
 
