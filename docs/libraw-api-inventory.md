@@ -50,21 +50,21 @@ Statuses:
 | `libraw_raw2image` | `libraw.h` | `wrapped` | wrapped by Processor.Raw2Image |
 | `libraw_recycle` | `libraw.h` | `wrapped` | wrapped by Processor.Recycle |
 | `libraw_recycle_datastream` | `libraw.h` | `wrapped` | wrapped by Processor.RecycleDatastream |
-| `libraw_set_adjust_maximum_thr` | `libraw.h` | `deferred` | tracked for a future workflowr task |
-| `libraw_set_bright` | `libraw.h` | `deferred` | tracked for a future workflowr task |
+| `libraw_set_adjust_maximum_thr` | `libraw.h` | `wrapped` | wrapped by Processor.SetAdjustMaximumThreshold |
+| `libraw_set_bright` | `libraw.h` | `wrapped` | wrapped by Processor.SetBright |
 | `libraw_set_dataerror_handler` | `libraw.h` | `deferred` | tracked for a future workflowr task |
-| `libraw_set_demosaic` | `libraw.h` | `deferred` | tracked for a future workflowr task |
+| `libraw_set_demosaic` | `libraw.h` | `wrapped` | wrapped by Processor.SetDemosaic |
 | `libraw_set_exifparser_handler` | `libraw.h` | `deferred` | tracked for a future workflowr task |
-| `libraw_set_fbdd_noiserd` | `libraw.h` | `deferred` | tracked for a future workflowr task |
-| `libraw_set_gamma` | `libraw.h` | `deferred` | tracked for a future workflowr task |
-| `libraw_set_highlight` | `libraw.h` | `deferred` | tracked for a future workflowr task |
+| `libraw_set_fbdd_noiserd` | `libraw.h` | `wrapped` | wrapped by Processor.SetFBDDNoiseReduction |
+| `libraw_set_gamma` | `libraw.h` | `wrapped` | wrapped by Processor.SetGamma |
+| `libraw_set_highlight` | `libraw.h` | `wrapped` | wrapped by Processor.SetHighlight |
 | `libraw_set_makernotes_handler` | `libraw.h` | `deferred` | tracked for a future workflowr task |
-| `libraw_set_no_auto_bright` | `libraw.h` | `deferred` | tracked for a future workflowr task |
-| `libraw_set_output_bps` | `libraw.h` | `deferred` | tracked for a future workflowr task |
-| `libraw_set_output_color` | `libraw.h` | `deferred` | tracked for a future workflowr task |
-| `libraw_set_output_tif` | `libraw.h` | `deferred` | tracked for a future workflowr task |
+| `libraw_set_no_auto_bright` | `libraw.h` | `wrapped` | wrapped by Processor.SetNoAutoBright |
+| `libraw_set_output_bps` | `libraw.h` | `wrapped` | wrapped by Processor.SetOutputBPS |
+| `libraw_set_output_color` | `libraw.h` | `wrapped` | wrapped by Processor.SetOutputColor |
+| `libraw_set_output_tif` | `libraw.h` | `wrapped` | wrapped by Processor.SetOutputTIFF |
 | `libraw_set_progress_handler` | `libraw.h` | `deferred` | tracked for a future workflowr task |
-| `libraw_set_user_mul` | `libraw.h` | `deferred` | tracked for a future workflowr task |
+| `libraw_set_user_mul` | `libraw.h` | `wrapped` | wrapped by Processor.SetUserMul |
 | `libraw_strerror` | `libraw.h` | `wrapped` | exposed as StrError and ErrorCode.String |
 | `libraw_strprogress` | `libraw.h` | `wrapped` | exposed as StrProgress and Progress.String |
 | `libraw_subtract_black` | `libraw.h` | `wrapped` | wrapped by Processor.SubtractBlack |
@@ -213,13 +213,13 @@ Statuses:
 | `libraw_nikon_makernotes_t` | `libraw_types.h` | `deferred` | tracked for a future workflowr task |
 | `libraw_nikonlens_t` | `libraw_types.h` | `deferred` | tracked for a future workflowr task |
 | `libraw_olympus_makernotes_t` | `libraw_types.h` | `deferred` | tracked for a future workflowr task |
-| `libraw_output_params_t` | `libraw_types.h` | `deferred` | tracked for a future workflowr task |
+| `libraw_output_params_t` | `libraw_types.h` | `wrapped` | wrapped by OutputParams; field coverage documented in docs/libraw-params-coverage.md |
 | `libraw_p1_makernotes_t` | `libraw_types.h` | `deferred` | tracked for a future workflowr task |
 | `libraw_panasonic_makernotes_t` | `libraw_types.h` | `deferred` | tracked for a future workflowr task |
 | `libraw_pentax_makernotes_t` | `libraw_types.h` | `deferred` | tracked for a future workflowr task |
 | `libraw_processed_image_t` | `libraw_types.h` | `deferred` | tracked for a future workflowr task |
 | `libraw_raw_inset_crop_t` | `libraw_types.h` | `deferred` | tracked for a future workflowr task |
-| `libraw_raw_unpack_params_t` | `libraw_types.h` | `deferred` | tracked for a future workflowr task |
+| `libraw_raw_unpack_params_t` | `libraw_types.h` | `wrapped` | wrapped by RawUnpackParams except custom_camera_strings, documented unsupported in docs/libraw-params-coverage.md |
 | `libraw_rawdata_t` | `libraw_types.h` | `deferred` | tracked for a future workflowr task |
 | `libraw_ricoh_makernotes_t` | `libraw_types.h` | `deferred` | tracked for a future workflowr task |
 | `libraw_samsung_makernotes_t` | `libraw_types.h` | `deferred` | tracked for a future workflowr task |

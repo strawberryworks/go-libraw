@@ -30,8 +30,9 @@ var ErrInitFailed = errors.New("libraw: libraw_init returned nil")
 // input into C memory retained here. The copy is freed when the handle is
 // recycled, closed, or reused for another buffer.
 type Handle struct {
-	ptr  *C.libraw_data_t
-	cbuf unsafe.Pointer
+	ptr          *C.libraw_data_t
+	cbuf         unsafe.Pointer
+	paramStrings [4]unsafe.Pointer
 }
 
 // New initializes a LibRaw handle.
@@ -51,6 +52,7 @@ func (h *Handle) Close() {
 	C.libraw_close(h.ptr)
 	h.ptr = nil
 	h.freeBuffer()
+	h.freeParamStrings()
 }
 
 // freeBuffer releases the retained C copy of an input buffer, if any.
