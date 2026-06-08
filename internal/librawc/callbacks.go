@@ -23,7 +23,15 @@ static void go_set_exif(libraw_data_t *lr, uintptr_t d) {
 	libraw_set_exifparser_handler(lr, (exif_parser_callback)goLibrawExif, (void *)d);
 }
 static void go_set_makernotes(libraw_data_t *lr, uintptr_t d) {
+	// libraw_set_makernotes_handler was added in LibRaw 0.22; on older
+	// libraries it is a no-op so the callback simply never fires.
+#if LIBRAW_VERSION >= LIBRAW_MAKE_VERSION(0, 22, 0)
 	libraw_set_makernotes_handler(lr, (exif_parser_callback)goLibrawMakernotes, (void *)d);
+#else
+	(void)lr;
+	(void)d;
+	(void)goLibrawMakernotes;
+#endif
 }
 */
 import "C"

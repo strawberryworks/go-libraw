@@ -67,6 +67,9 @@ func (p *Processor) SetExifParserHandler(fn TagParserFunc) error {
 
 // SetMakerNotesHandler registers fn to receive maker-note tag events. Pass nil
 // to disable the handler.
+//
+// LibRaw exposed libraw_set_makernotes_handler in 0.22; when linked against an
+// older LibRaw this registers fn but the callback never fires.
 func (p *Processor) SetMakerNotesHandler(fn TagParserFunc) error {
 	return p.withHandleVoid(func(h *librawc.Handle) {
 		if fn == nil {
