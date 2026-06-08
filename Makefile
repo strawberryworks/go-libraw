@@ -1,4 +1,6 @@
-.PHONY: build example test cover cover-html libraw-check lint vet fmt clean check
+.PHONY: api-inventory check-api-inventory build example test cover cover-html libraw-check lint vet fmt clean check
+
+LIBRAW_HEADERS ?= testdata/headers/libraw
 
 # _example is skipped by ./..., so compile-check it explicitly.
 build:
@@ -30,6 +32,14 @@ libraw-check:
 	fi
 	@go test -v -run TestLinkedVersion ./internal/librawc
 
+# Regenerate the LibRaw API inventory and coverage map.
+api-inventory:
+	go run ./cmd/libraw-api-inventory -headers "$(LIBRAW_HEADERS)" -update-coverage
+
+# Verify committed LibRaw API inventory and coverage map are current.
+check-api-inventory:
+	go run ./cmd/libraw-api-inventory -headers "$(LIBRAW_HEADERS)" -check
+
 # Develops the bundled sample RAW to RAW_CANON_6D.jpg (run from the repo root).
 example:
 	go run ./_example
@@ -59,4 +69,4 @@ lint:
 clean:
 	rm -f coverage.out coverage.html testdata/*.jpg
 
-check: libraw-check build vet lint test
+check: libraw-check check-api-inventory build vet lint test
