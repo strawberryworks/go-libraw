@@ -112,6 +112,32 @@ static unsigned char go_libraw_nikon_burst_table_fnum(libraw_nikon_makernotes_t 
 	return 0;
 #endif
 }
+
+static unsigned go_libraw_olympus_decoder_tag(libraw_olympus_makernotes_t *p, int i) {
+#if LIBRAW_VERSION >= LIBRAW_MAKE_VERSION(0,22,0)
+	switch(i) {
+	case 0: return p->tagX640;
+	case 1: return p->tagX641;
+	case 2: return p->tagX642;
+	case 3: return p->tagX643;
+	case 4: return p->tagX644;
+	case 5: return p->tagX645;
+	case 6: return p->tagX646;
+	case 7: return p->tagX647;
+	case 8: return p->tagX648;
+	case 9: return p->tagX649;
+	case 10: return p->tagX650;
+	case 11: return p->tagX651;
+	case 12: return p->tagX652;
+	case 13: return p->tagX653;
+	default: return 0;
+	}
+#else
+	(void)p;
+	(void)i;
+	return 0;
+#endif
+}
 */
 import "C"
 
@@ -726,9 +752,8 @@ func convertOlympusMakerNotes(o *C.libraw_olympus_makernotes_t) OlympusMakerNote
 		FocusDistance: float64(o.FocusDistance), IsLiveND: uint8(o.isLiveND), LiveNDFactor: uint32(o.LiveNDfactor),
 		PanoramaMode: uint16(o.Panorama_mode), PanoramaFrameNum: uint16(o.Panorama_frameNum),
 	}
-	tags := [14]C.uint{o.tagX640, o.tagX641, o.tagX642, o.tagX643, o.tagX644, o.tagX645, o.tagX646, o.tagX647, o.tagX648, o.tagX649, o.tagX650, o.tagX651, o.tagX652, o.tagX653}
 	for i := 0; i < 14; i++ {
-		out.DecoderTags[i] = uint32(tags[i])
+		out.DecoderTags[i] = uint32(C.go_libraw_olympus_decoder_tag(o, C.int(i)))
 	}
 	for i := 0; i < 2; i++ {
 		out.SensorCalibration[i] = int(o.SensorCalibration[i])
