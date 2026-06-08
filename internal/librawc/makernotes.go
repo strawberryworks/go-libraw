@@ -138,6 +138,34 @@ static unsigned go_libraw_olympus_decoder_tag(libraw_olympus_makernotes_t *p, in
 	return 0;
 #endif
 }
+
+static unsigned short go_libraw_sony_len_group9050(libraw_sony_info_t *p) {
+#if LIBRAW_VERSION >= LIBRAW_MAKE_VERSION(0,22,0)
+	return p->len_group9050;
+#else
+	(void)p;
+	return 0;
+#endif
+}
+
+static float go_libraw_sony_aspect_ratio(libraw_sony_info_t *p) {
+#if LIBRAW_VERSION >= LIBRAW_MAKE_VERSION(0,22,0)
+	return p->AspectRatio;
+#else
+	(void)p;
+	return 0;
+#endif
+}
+
+static unsigned char go_libraw_pentax_dynamic_range_expansion(libraw_pentax_makernotes_t *p, int i) {
+#if LIBRAW_VERSION >= LIBRAW_MAKE_VERSION(0,22,0)
+	return p->DynamicRangeExpansion[i];
+#else
+	(void)p;
+	(void)i;
+	return 0;
+#endif
+}
 */
 import "C"
 
@@ -787,7 +815,7 @@ func convertSonyMakerNotes(s *C.libraw_sony_info_t) SonyMakerNotes {
 		NAFPointsUsed: int16(s.nAFPointsUsed), AFTracking: uint8(s.AFTracking), AFType: uint8(s.AFType), FocusPosition: uint16(s.FocusPosition),
 		AFMicroAdjValue: int8(s.AFMicroAdjValue), AFMicroAdjOn: int8(s.AFMicroAdjOn), AFMicroAdjRegisteredLenses: uint8(s.AFMicroAdjRegisteredLenses),
 		VariableLowPassFilter: uint16(s.VariableLowPassFilter), LongExposureNoiseReduction: uint32(s.LongExposureNoiseReduction),
-		HighISONoiseReduction: uint16(s.HighISONoiseReduction), Group2010: uint16(s.group2010), Group9050: uint16(s.group9050), LenGroup9050: uint16(s.len_group9050),
+		HighISONoiseReduction: uint16(s.HighISONoiseReduction), Group2010: uint16(s.group2010), Group9050: uint16(s.group9050), LenGroup9050: uint16(C.go_libraw_sony_len_group9050(s)),
 		RealISOOffset: uint16(s.real_iso_offset), MeteringModeOffset: uint16(s.MeteringMode_offset), ExposureProgramOffset: uint16(s.ExposureProgram_offset),
 		ReleaseMode2Offset: uint16(s.ReleaseMode2_offset), MinoltaCamID: uint32(s.MinoltaCamID), Firmware: float32(s.firmware),
 		ImageCount3Offset: uint16(s.ImageCount3_offset), ImageCount3: uint32(s.ImageCount3), ElectronicFrontCurtainShutter: uint32(s.ElectronicFrontCurtainShutter),
@@ -796,7 +824,7 @@ func convertSonyMakerNotes(s *C.libraw_sony_info_t) SonyMakerNotes {
 		NumInPixelShiftGroup: int8(s.numInPixelShiftGroup), PRDImageHeight: uint16(s.prd_ImageHeight), PRDImageWidth: uint16(s.prd_ImageWidth),
 		PRDTotalBPS: uint16(s.prd_Total_bps), PRDActiveBPS: uint16(s.prd_Active_bps), PRDStorageMethod: uint16(s.prd_StorageMethod), PRDBayerPattern: uint16(s.prd_BayerPattern),
 		SonyRawFileType: uint16(s.SonyRawFileType), RawFileType: uint16(s.RAWFileType), RawSizeType: uint16(s.RawSizeType), Quality: uint32(s.Quality),
-		FileFormat: uint16(s.FileFormat), MetaVersion: cString(&s.MetaVersion[0]), AspectRatio: float32(s.AspectRatio),
+		FileFormat: uint16(s.FileFormat), MetaVersion: cString(&s.MetaVersion[0]), AspectRatio: float32(C.go_libraw_sony_aspect_ratio(s)),
 	}
 	for i := 0; i < 2; i++ {
 		out.FlexibleSpotPosition[i] = uint16(s.FlexibleSpotPosition[i])
@@ -841,7 +869,7 @@ func convertPentaxMakerNotes(p *C.libraw_pentax_makernotes_t) PentaxMakerNotes {
 	out := PentaxMakerNotes{AFPointSelectedArea: uint16(p.AFPointSelected_Area), AFPointsInFocusVersion: int(p.AFPointsInFocus_version), AFPointsInFocus: uint32(p.AFPointsInFocus), FocusPosition: uint16(p.FocusPosition), AFAdjustment: int16(p.AFAdjustment), AFPointMode: uint8(p.AFPointMode), MultiExposure: uint8(p.MultiExposure), Quality: uint16(p.Quality)}
 	for i := 0; i < 4; i++ {
 		out.DriveMode[i] = uint8(p.DriveMode[i])
-		out.DynamicRangeExpansion[i] = uint8(p.DynamicRangeExpansion[i])
+		out.DynamicRangeExpansion[i] = uint8(C.go_libraw_pentax_dynamic_range_expansion(p, C.int(i)))
 	}
 	for i := 0; i < 2; i++ {
 		out.FocusMode[i] = uint16(p.FocusMode[i])
