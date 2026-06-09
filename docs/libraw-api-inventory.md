@@ -8,7 +8,7 @@ Statuses:
 
 - `wrapped`: covered by the current Go API.
 - `internal`: used behind the public Go API boundary.
-- `deferred`: in scope for later workflowr tasks.
+- `deferred`: in scope for later scenarum tasks.
 - `unsupported`: intentionally not planned.
 - `unmapped`: present upstream but missing from coverage map.
 
@@ -45,8 +45,8 @@ Statuses:
 | `libraw_open_buffer` | `libraw.h` | `wrapped` | wrapped by Processor.OpenBuffer |
 | `libraw_open_file` | `libraw.h` | `wrapped` | wrapped by Processor.OpenFile |
 | `libraw_open_file_ex` | `libraw.h` | `unsupported` | removed from default 0.22 build via LIBRAW_NO_IOSTREAMS_DATASTREAM |
-| `libraw_open_wfile` | `libraw.h` | `deferred` | tracked for a future workflowr task |
-| `libraw_open_wfile_ex` | `libraw.h` | `deferred` | tracked for a future workflowr task |
+| `libraw_open_wfile` | `libraw.h` | `deferred` | tracked for a future scenarum task |
+| `libraw_open_wfile_ex` | `libraw.h` | `deferred` | tracked for a future scenarum task |
 | `libraw_raw2image` | `libraw.h` | `wrapped` | wrapped by Processor.Raw2Image |
 | `libraw_recycle` | `libraw.h` | `wrapped` | wrapped by Processor.Recycle |
 | `libraw_recycle_datastream` | `libraw.h` | `wrapped` | wrapped by Processor.RecycleDatastream |
@@ -188,7 +188,7 @@ Statuses:
 | `libraw_P1_color_t` | `libraw_types.h` | `wrapped` | wrapped by P1Color; field coverage documented in docs/libraw-metadata-coverage.md |
 | `libraw_afinfo_item_t` | `libraw_types.h` | `wrapped` | wrapped by AFInfoItem summary; pointer payload documented in docs/libraw-maker-notes-coverage.md |
 | `libraw_area_t` | `libraw_types.h` | `wrapped` | wrapped by Area for Canon maker-note crop fields |
-| `libraw_callbacks_t` | `libraw_types.h` | `deferred` | tracked for a future workflowr task |
+| `libraw_callbacks_t` | `libraw_types.h` | `deferred` | tracked for a future scenarum task |
 | `libraw_canon_makernotes_t` | `libraw_types.h` | `wrapped` | wrapped by CanonMakerNotes |
 | `libraw_colordata_t` | `libraw_types.h` | `wrapped` | wrapped by ColorData; pointer payloads summarized in docs/libraw-metadata-coverage.md |
 | `libraw_custom_camera_t` | `libraw_types.h` | `deferred` | decoder/custom camera work tracked for TASK-012 |

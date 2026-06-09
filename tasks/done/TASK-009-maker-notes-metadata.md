@@ -68,7 +68,7 @@ Expose complete Go read access to LibRaw maker-note metadata for supported vendo
 
 ## Language Requirements
 
-- Language: Go for implementation and tooling; Markdown for workflowr docs and task files.
+- Language: Go for implementation and tooling; Markdown for scenarum docs and task files.
 - Style: idiomatic Go, simple package boundaries, explicit errors, table-driven tests when helpful.
 - Dependency policy: prefer the Go standard library; do not add external dependencies unless explicitly required by the task.
 - Standard tools: `gofmt`, `go vet`, `go test`, and project Makefile targets.

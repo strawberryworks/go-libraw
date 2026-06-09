@@ -65,8 +65,8 @@ function	libraw_open_bayer	wrapped	wrapped by Processor.OpenBayer
 function	libraw_open_buffer	wrapped	wrapped by Processor.OpenBuffer
 function	libraw_open_file	wrapped	wrapped by Processor.OpenFile
 function	libraw_open_file_ex	unsupported	removed from default 0.22 build via LIBRAW_NO_IOSTREAMS_DATASTREAM
-function	libraw_open_wfile	deferred	tracked for a future workflowr task
-function	libraw_open_wfile_ex	deferred	tracked for a future workflowr task
+function	libraw_open_wfile	deferred	tracked for a future scenarum task
+function	libraw_open_wfile_ex	deferred	tracked for a future scenarum task
 function	libraw_raw2image	wrapped	wrapped by Processor.Raw2Image
 function	libraw_recycle	wrapped	wrapped by Processor.Recycle
 function	libraw_recycle_datastream	wrapped	wrapped by Processor.RecycleDatastream
@@ -156,7 +156,7 @@ macro	LIBRAW_XTRANS	wrapped	generated from value-like macro
 struct	libraw_P1_color_t	wrapped	wrapped by P1Color; field coverage documented in docs/libraw-metadata-coverage.md
 struct	libraw_afinfo_item_t	wrapped	wrapped by AFInfoItem summary; pointer payload documented in docs/libraw-maker-notes-coverage.md
 struct	libraw_area_t	wrapped	wrapped by Area for Canon maker-note crop fields
-struct	libraw_callbacks_t	deferred	tracked for a future workflowr task
+struct	libraw_callbacks_t	deferred	tracked for a future scenarum task
 struct	libraw_canon_makernotes_t	wrapped	wrapped by CanonMakerNotes
 struct	libraw_colordata_t	wrapped	wrapped by ColorData; pointer payloads summarized in docs/libraw-metadata-coverage.md
 struct	libraw_custom_camera_t	deferred	decoder/custom camera work tracked for TASK-012
