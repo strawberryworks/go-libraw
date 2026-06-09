@@ -1,4 +1,6 @@
-# go-libraw Workflowr Queue
+# go-libraw Scenarum Queue
+
+Scenarum tool repository: https://github.com/ivanglie/scenarum
 
 This queue defines the work needed to build `github.com/ivanglie/go-libraw` as a complete Go wrapper for upstream `LibRaw/LibRaw`.
 
@@ -12,4 +14,3 @@ The upstream inventory baseline for the initial task set is `LibRaw/LibRaw` HEAD
 - `libraw/libraw_datastream.h`
 
 Use `AGENTS.md` and take tasks from `tasks/inbox/` one at a time.
-

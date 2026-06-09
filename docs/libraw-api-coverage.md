@@ -17,9 +17,9 @@
 
 ## Deferred Symbols
 
-- `function` `libraw_open_wfile`: tracked for a future workflowr task
-- `function` `libraw_open_wfile_ex`: tracked for a future workflowr task
-- `struct` `libraw_callbacks_t`: tracked for a future workflowr task
+- `function` `libraw_open_wfile`: tracked for a future scenarum task
+- `function` `libraw_open_wfile_ex`: tracked for a future scenarum task
+- `struct` `libraw_callbacks_t`: tracked for a future scenarum task
 - `struct` `libraw_custom_camera_t`: decoder/custom camera work tracked for TASK-012
 
 ## Unsupported Symbols

@@ -1,4 +1,6 @@
-# Workflowr Development Protocol
+# Scenarum Development Protocol
+
+Tool repository: https://github.com/ivanglie/scenarum
 
 Use this protocol for every implementation task unless the task file says otherwise.
 
@@ -13,7 +15,7 @@ Use this protocol for every implementation task unless the task file says otherw
 7. Run required checks: lint, typecheck, tests, coverage, or the closest available equivalents.
 8. Review the diff for regressions, unrelated changes, and missing tests.
 9. Commit changes using the configured commit style.
-10. Prepare a pull request description from `.workflowr/pr-template.md`.
+10. Prepare a pull request description from `.scenarum/pr-template.md`.
 
 ## Operating Rules
 
@@ -146,7 +148,7 @@ Lifecycle rules:
 
 When blocking a task:
 
-1. Create a blocker note from `.workflowr/blocker-note.md`.
+1. Create a blocker note from `.scenarum/blocker-note.md`.
 2. Place it next to the blocked task or in the task file under `## Blocker Note`.
 3. Include unknowns, evidence, attempted options, and the recommended next step.
 
@@ -202,7 +204,7 @@ Defaults:
 - Base branch: task PR target, otherwise default branch.
 - Head branch: task target branch.
 - Title format: `<TASK-ID>: <short summary>`.
-- Body template: `.workflowr/pr-template.md`.
+- Body template: `.scenarum/pr-template.md`.
 - Push branch automatically: yes, only after required checks pass.
 
 Rules:

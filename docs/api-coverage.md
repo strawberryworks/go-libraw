@@ -23,7 +23,7 @@ is the Go equivalent?"
 | --- | --- |
 | `wrapped` | Exposed through the public Go API or generated Go constants. |
 | `internal` | Used behind the public API boundary and intentionally not exported. |
-| `deferred` | Known upstream symbol tracked for a later workflowr task. |
+| `deferred` | Known upstream symbol tracked for a later scenarum task. |
 | `unsupported` | Intentionally not exposed, usually because it is a preprocessor switch, platform-specific entry point, or unavailable in the configured LibRaw build. |
 | `unmapped` | Present in headers but missing from the coverage map; this should be fixed or explained before claiming full coverage. |
 

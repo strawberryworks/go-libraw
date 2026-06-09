@@ -123,7 +123,7 @@ func TestRenderCoverageTSVPreservesExistingEntries(t *testing.T) {
 	if !strings.Contains(body, "function\tlibraw_version\twrapped\tpublic version helper") {
 		t.Fatalf("existing coverage entry not preserved:\n%s", body)
 	}
-	if !strings.Contains(body, "function\tlibraw_open_file\tdeferred\ttracked for a future workflowr task") {
+	if !strings.Contains(body, "function\tlibraw_open_file\tdeferred\ttracked for a future scenarum task") {
 		t.Fatalf("missing default deferred entry:\n%s", body)
 	}
 }

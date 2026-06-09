@@ -206,7 +206,7 @@ func RenderCoverageTSV(inv Inventory, coverage map[string]CoverageEntry) []byte 
 				Kind:   sym.Kind,
 				Name:   sym.Name,
 				Status: "deferred",
-				Note:   "tracked for a future workflowr task",
+				Note:   "tracked for a future scenarum task",
 			}
 		}
 		fmt.Fprintf(&out, "%s\t%s\t%s\t%s\n", entry.Kind, entry.Name, entry.Status, entry.Note)
@@ -231,7 +231,7 @@ func RenderMarkdown(inv Inventory, coverage map[string]CoverageEntry) ([]byte, [
 	fmt.Fprintln(&out)
 	fmt.Fprintln(&out, "- `wrapped`: covered by the current Go API.")
 	fmt.Fprintln(&out, "- `internal`: used behind the public Go API boundary.")
-	fmt.Fprintln(&out, "- `deferred`: in scope for later workflowr tasks.")
+	fmt.Fprintln(&out, "- `deferred`: in scope for later scenarum tasks.")
 	fmt.Fprintln(&out, "- `unsupported`: intentionally not planned.")
 	fmt.Fprintln(&out, "- `unmapped`: present upstream but missing from coverage map.")
 	fmt.Fprintln(&out)
