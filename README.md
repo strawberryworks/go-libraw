@@ -1,6 +1,6 @@
 # go-libraw
 
-![go-libraw project cover](docs/assets/go-libraw-cover.png)
+![go-libraw project cover](docs/assets/social-preview.jpg)
 
 `go-libraw` provides Go bindings for [LibRaw](https://www.libraw.org/docs),
 the RAW image decoding library. It keeps LibRaw's lifecycle visible while
