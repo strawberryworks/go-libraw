@@ -1,4 +1,4 @@
-.PHONY: api-inventory api-coverage check-api-inventory check-api-coverage generate build example examples test test-fast test-fixtures cover cover-html libraw-check lint vet fmt clean check release-check
+.PHONY: api-inventory api-coverage check-api-inventory check-api-coverage generate build build-static example examples test test-fast test-fixtures cover cover-html libraw-check libraw-check-static lint vet fmt clean check release-check
 
 LIBRAW_HEADERS ?= testdata/headers/libraw
 
@@ -6,6 +6,10 @@ LIBRAW_HEADERS ?= testdata/headers/libraw
 build:
 	go build ./...
 	go build -o /dev/null ./_example/
+
+build-static:
+	go build -tags libraw_static ./...
+	go build -tags libraw_static -o /dev/null ./_example/
 
 # Verify cgo can find and link LibRaw, then print the linked runtime version.
 libraw-check:
@@ -31,6 +35,41 @@ libraw-check:
 		exit 1; \
 	fi
 	@go test -v -run TestLinkedVersion ./internal/librawc
+
+# Verify the opt-in macOS static link path and assert Homebrew dylibs are absent.
+libraw-check-static:
+	@echo "cgo: $$(go env CGO_ENABLED)"
+	@if [ "$$(go env CGO_ENABLED)" != "1" ]; then \
+		echo "error: CGO_ENABLED=1 is required to build go-libraw"; \
+		exit 1; \
+	fi
+	@if [ "$$(go env GOOS)" != "darwin" ]; then \
+		echo "error: libraw-check-static currently supports macOS only"; \
+		echo "Linux static linking can be tested with PKG_CONFIG=\"pkg-config --static\" and project-specific CGO_LDFLAGS"; \
+		exit 1; \
+	fi
+	@if [ "$$(go env GOARCH)" = "arm64" ]; then \
+		prefix="/opt/homebrew/opt"; \
+	else \
+		prefix="/usr/local/opt"; \
+	fi; \
+	for archive in \
+		"$$prefix/libraw/lib/libraw.a" \
+		"$$prefix/jpeg-turbo/lib/libjpeg.a" \
+		"$$prefix/little-cms2/lib/liblcms2.a" \
+		"$$prefix/libomp/lib/libomp.a"; do \
+		if [ ! -f "$$archive" ]; then \
+			echo "error: required static archive not found: $$archive"; \
+			exit 1; \
+		fi; \
+	done
+	go test -v -tags libraw_static -run TestLinkedVersion ./internal/librawc
+	@mkdir -p tmp
+	go test -c -tags libraw_static -o tmp/librawc-static.test ./internal/librawc
+	@if otool -L tmp/librawc-static.test | grep -E '/opt/homebrew|/usr/local'; then \
+		echo "error: static test binary still links Homebrew dynamic libraries"; \
+		exit 1; \
+	fi
 
 # Regenerate the LibRaw API inventory and coverage map.
 api-inventory:

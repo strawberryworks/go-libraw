@@ -29,6 +29,39 @@ The current cgo bridge checks the standard Homebrew prefixes:
 `pkg-config` is useful but not required on macOS while these Homebrew paths are
 available.
 
+### Static Linking With `libraw_static`
+
+Default macOS builds link LibRaw dynamically. To opt into the static Homebrew
+archives for LibRaw and its open-source dependencies, build with the
+`libraw_static` tag:
+
+```sh
+go build -tags libraw_static ./...
+make libraw-check-static
+```
+
+The tag uses the standard Homebrew archive locations for the current
+architecture:
+
+```text
+/opt/homebrew/opt/libraw/lib/libraw.a
+/opt/homebrew/opt/jpeg-turbo/lib/libjpeg.a
+/opt/homebrew/opt/little-cms2/lib/liblcms2.a
+/opt/homebrew/opt/libomp/lib/libomp.a
+```
+
+On Intel macOS the same paths are expected under `/usr/local/opt`. System
+libraries such as `libz`, `libc++`, and `libSystem` remain dynamic, which is the
+normal macOS linking model. The `libraw-check-static` target builds and runs the
+linked-version smoke test, then inspects the test binary with `otool -L` to make
+sure no Homebrew dynamic library paths remain.
+
+If Homebrew is installed in a non-standard prefix, use that prefix from the
+consumer build system through `CGO_CFLAGS`/`CGO_LDFLAGS` and make sure the
+standard archive paths used by the tag are also resolvable. cgo appends
+environment flags to package directives; it does not remove directives already
+declared by this package.
+
 ## Debian And Ubuntu
 
 Install LibRaw and pkg-config metadata:
@@ -46,6 +79,14 @@ pkg-config --cflags --libs libraw
 
 If LibRaw is installed in a custom prefix, set `PKG_CONFIG_PATH` to the
 directory containing `libraw.pc`.
+
+Static Linux builds are not implemented as a first-class target yet. For local
+experiments, use pkg-config's static metadata and any distribution-specific
+transitive dependencies:
+
+```sh
+PKG_CONFIG="pkg-config --static" go build -tags libraw_static ./...
+```
 
 ## Fedora
 
