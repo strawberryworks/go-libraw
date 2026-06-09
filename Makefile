@@ -1,4 +1,4 @@
-.PHONY: api-inventory check-api-inventory generate build example examples test cover cover-html libraw-check lint vet fmt clean check
+.PHONY: api-inventory check-api-inventory generate build example examples test test-fast test-fixtures cover cover-html libraw-check lint vet fmt clean check
 
 LIBRAW_HEADERS ?= testdata/headers/libraw
 
@@ -62,6 +62,12 @@ examples:
 
 test:
 	go test -v -cover -coverpkg=./... -race ./...
+
+test-fast:
+	go test -short ./...
+
+test-fixtures:
+	go test -count=1 -run 'Test(FixtureRegression|MetadataForFixtures|MakerNotesForFixtures)' ./...
 
 # Generate a coverage profile and print function-level coverage.
 cover:

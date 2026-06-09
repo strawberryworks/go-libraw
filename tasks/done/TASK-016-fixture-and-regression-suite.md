@@ -83,7 +83,13 @@ Separate fast tests from expensive fixture tests only if runtime becomes painful
 
 - Question: Should more camera fixtures be added to cover every maker-note vendor?
 - Recommended default: not in this task; use current fixtures and document gaps.
-- Answer:
+- Answer: do not add new camera fixtures in this task. Use the current bundled Canon, Nikon, Ricoh, Sony, and DNG fixtures and document the fixture policy.
+
+## Implementation Outcome
+
+- Added table-driven fixture regression tests for opening, identification, decoder info, processing, thumbnails, and invalid inputs.
+- Added `make test-fast` and `make test-fixtures` targets.
+- Documented fixture regression coverage and fixture policy in `docs/regression-tests.md`.
 
 ## Git And PR
 
@@ -106,4 +112,3 @@ Separate fast tests from expensive fixture tests only if runtime becomes painful
 
 - Risk: RAW fixtures can make tests slow.
 - Mitigation: profile runtime and split fast/full test targets if needed.
-
