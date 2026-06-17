@@ -30,7 +30,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer p.Close()
+	defer func() { _ = p.Close() }()
 
 	if err := p.OpenFile(path); err != nil {
 		log.Fatalf("open %s: %v", path, err)
@@ -65,10 +65,12 @@ func writePGM16(path string, width, height, pitch int, data []uint16) error {
 	if err != nil {
 		return err
 	}
-	defer f.Close()
 
 	bw := bufio.NewWriterSize(f, 1<<20)
-	fmt.Fprintf(bw, "P5\n%d %d\n65535\n", width, height)
+	if _, err := fmt.Fprintf(bw, "P5\n%d %d\n65535\n", width, height); err != nil {
+		_ = f.Close()
+		return err
+	}
 
 	tmp := make([]byte, 2*width)
 	for row := 0; row < height; row++ {
@@ -81,8 +83,13 @@ func writePGM16(path string, width, height, pitch int, data []uint16) error {
 			tmp[2*col+1] = byte(v)
 		}
 		if _, err := bw.Write(tmp); err != nil {
+			_ = f.Close()
 			return err
 		}
 	}
-	return bw.Flush()
+	if err := bw.Flush(); err != nil {
+		_ = f.Close()
+		return err
+	}
+	return f.Close()
 }

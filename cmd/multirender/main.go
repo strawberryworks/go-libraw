@@ -31,7 +31,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer p.Close()
+	defer func() { _ = p.Close() }()
 
 	if err := p.OpenFile(path); err != nil {
 		log.Fatalf("open %s: %v", path, err)
