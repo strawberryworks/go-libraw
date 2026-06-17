@@ -6,7 +6,7 @@
 [![codecov](https://codecov.io/gh/ivanglie/go-libraw/graph/badge.svg)](https://codecov.io/gh/ivanglie/go-libraw)
 [![Go Reference](https://pkg.go.dev/badge/github.com/ivanglie/go-libraw/pkg/libraw.svg)](https://pkg.go.dev/github.com/ivanglie/go-libraw/pkg/libraw)
 
-`go-libraw` provides Go bindings for [LibRaw](https://www.libraw.org/docs),
+`go-libraw` provides Go bindings to [LibRaw](https://www.libraw.org/docs)
 for reading and processing of RAW digicam images.
 
 ## Requirements
