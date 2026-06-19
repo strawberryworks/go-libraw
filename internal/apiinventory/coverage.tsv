@@ -188,7 +188,7 @@ struct	libraw_pentax_makernotes_t	wrapped	wrapped by PentaxMakerNotes
 struct	libraw_processed_image_t	wrapped	wrapped by ProcessedImage
 struct	libraw_raw_inset_crop_t	wrapped	wrapped by RawInsetCrop
 struct	libraw_raw_unpack_params_t	wrapped	wrapped by RawUnpackParams except custom_camera_strings, documented unsupported in docs/libraw-params-coverage.md
-struct	libraw_rawdata_t	wrapped	summarized by RawDataSummary; raw_image bytes via Processor.RawImage
+struct	libraw_rawdata_t	wrapped	summarized by RawDataSummary; raw buffers via Processor.RawImage, Color3Image, Color4Image, FloatImage, Float3Image, Float4Image
 struct	libraw_ricoh_makernotes_t	wrapped	wrapped by RicohMakerNotes
 struct	libraw_samsung_makernotes_t	wrapped	wrapped by SamsungMakerNotes
 struct	libraw_sensor_highspeed_crop_t	wrapped	wrapped by SensorHighSpeedCrop

@@ -62,7 +62,8 @@ return p.WritePPMTiff(out)
 For raw data analysis:
 
 - call `Unpack`
-- call `RawImage` for a Go-owned copy of the single-channel raw buffer
+- call `RawImage`, `Color3Image`, `Color4Image`, `FloatImage`, `Float3Image`,
+  or `Float4Image` for Go-owned copies of available raw buffers
 - use `RawWidth`, `RawHeight`, `Color`, `CamMul`, `PreMul`, and `RGBCam` for
   sensor geometry and color helper data
 

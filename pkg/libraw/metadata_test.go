@@ -73,6 +73,59 @@ func TestMetadataSnapshotSurvivesClose(t *testing.T) {
 	}
 }
 
+func TestMetadataRawDataSummaryBuffersAndCBlackFull(t *testing.T) {
+	p := openProcessor(t)
+	if err := p.OpenFile(sampleRAW); err != nil {
+		t.Fatalf("OpenFile() error = %v", err)
+	}
+	if err := p.Unpack(); err != nil {
+		t.Fatalf("Unpack() error = %v", err)
+	}
+
+	meta, err := p.Metadata()
+	if err != nil {
+		t.Fatalf("Metadata() error = %v", err)
+	}
+	if !meta.RawData.HasRawImage {
+		t.Fatal("RawData.HasRawImage = false, want true after Unpack for sample fixture")
+	}
+	if meta.RawData.HasColor3Image || meta.RawData.HasColor4Image || meta.RawData.HasFloat3Image || meta.RawData.HasFloat4Image {
+		t.Logf("fixture exposes direct raw buffers: rawdata=%+v", meta.RawData)
+	}
+	if got := len(meta.Color.CBlackFull); got <= len(meta.Color.CBlack) {
+		t.Fatalf("Color.CBlackFull len = %d, want more than %d", got, len(meta.Color.CBlack))
+	}
+	if got := len(meta.RawData.Color.CBlackFull); got != len(meta.Color.CBlackFull) {
+		t.Fatalf("RawData.Color.CBlackFull len = %d, want %d", got, len(meta.Color.CBlackFull))
+	}
+	for i, want := range meta.Color.CBlack {
+		if got := meta.Color.CBlackFull[i]; got != want {
+			t.Fatalf("Color.CBlackFull[%d] = %d, want first CBlack value %d", i, got, want)
+		}
+		if got := meta.RawData.Color.CBlackFull[i]; got != meta.RawData.Color.CBlack[i] {
+			t.Fatalf("RawData.Color.CBlackFull[%d] = %d, want first RawData.Color.CBlack value %d", i, got, meta.RawData.Color.CBlack[i])
+		}
+	}
+
+	dng := meta.Color.DNGLevels
+	if got := len(dng.DNGCBlackFull); got <= len(dng.DNGCBlack) {
+		t.Fatalf("DNGLevels.DNGCBlackFull len = %d, want more than %d", got, len(dng.DNGCBlack))
+	}
+	if got := len(dng.DNGFCBlackFull); got != len(dng.DNGCBlackFull) {
+		t.Fatalf("DNGLevels.DNGFCBlackFull len = %d, want %d", got, len(dng.DNGCBlackFull))
+	}
+	for i, want := range dng.DNGCBlack {
+		if got := dng.DNGCBlackFull[i]; got != want {
+			t.Fatalf("DNGLevels.DNGCBlackFull[%d] = %d, want first DNGCBlack value %d", i, got, want)
+		}
+	}
+	for i, want := range dng.DNGFCBlack {
+		if got := dng.DNGFCBlackFull[i]; got != want {
+			t.Fatalf("DNGLevels.DNGFCBlackFull[%d] = %v, want first DNGFCBlack value %v", i, got, want)
+		}
+	}
+}
+
 func TestMetadataAfterCloseReturnsErrClosed(t *testing.T) {
 	p, err := NewProcessor()
 	if err != nil {

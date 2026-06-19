@@ -114,13 +114,15 @@ test-fixtures:
 # Generate a coverage profile and print function-level coverage.
 # cmd/ and tools/ are excluded from the denominator: they are main packages
 # with no tests and would artificially deflate the library coverage number.
+# -count=1 disables test caching: with multi-package -coverpkg, cached runs
+# merge partial per-package profiles and under-report the real coverage.
 cover:
-	go test -coverpkg=./internal/...,./pkg/... -coverprofile=coverage.out ./...
+	go test -count=1 -coverpkg=./internal/...,./pkg/... -coverprofile=coverage.out ./...
 	go tool cover -func=coverage.out
 
 # Generate a coverage profile and open it in a browser.
 cover-html:
-	go test -coverpkg=./internal/...,./pkg/... -coverprofile=coverage.out ./...
+	go test -count=1 -coverpkg=./internal/...,./pkg/... -coverprofile=coverage.out ./...
 	go tool cover -html=coverage.out
 
 vet:
