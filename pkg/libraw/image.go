@@ -58,6 +58,101 @@ func (p *Processor) RawImage() ([]uint16, error) {
 	return data, nil
 }
 
+// Color3Image returns a copy of LibRaw's direct 3-channel raw color buffer.
+//
+// Unpack must run first. The returned slice is owned by the caller and remains
+// valid after the Processor is closed. Its length is raw_width*raw_height
+// pixels; row padding described by raw_pitch is skipped. ErrNoImageData is
+// returned when the opened image has no direct 3-channel color buffer.
+func (p *Processor) Color3Image() ([][3]uint16, error) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	if p.closed || p.handle == nil {
+		return nil, ErrClosed
+	}
+	data := p.handle.Color3Image()
+	if data == nil {
+		return nil, ErrNoImageData
+	}
+	return data, nil
+}
+
+// Color4Image returns a copy of LibRaw's direct 4-channel raw color buffer.
+//
+// Unpack must run first. The returned slice is owned by the caller and remains
+// valid after the Processor is closed. Its length is raw_width*raw_height
+// pixels; row padding described by raw_pitch is skipped. ErrNoImageData is
+// returned when the opened image has no direct 4-channel color buffer.
+func (p *Processor) Color4Image() ([][4]uint16, error) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	if p.closed || p.handle == nil {
+		return nil, ErrClosed
+	}
+	data := p.handle.Color4Image()
+	if data == nil {
+		return nil, ErrNoImageData
+	}
+	return data, nil
+}
+
+// FloatImage returns a copy of LibRaw's direct single-channel float raw buffer.
+//
+// Unpack must run first. The returned slice is owned by the caller and remains
+// valid after the Processor is closed. Its length is raw_width*raw_height
+// samples; row padding described by raw_pitch is skipped. ErrNoImageData is
+// returned when the opened image has no direct single-channel float buffer.
+func (p *Processor) FloatImage() ([]float32, error) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	if p.closed || p.handle == nil {
+		return nil, ErrClosed
+	}
+	data := p.handle.FloatImage()
+	if data == nil {
+		return nil, ErrNoImageData
+	}
+	return data, nil
+}
+
+// Float3Image returns a copy of LibRaw's direct 3-channel float raw buffer.
+//
+// Unpack must run first. The returned slice is owned by the caller and remains
+// valid after the Processor is closed. Its length is raw_width*raw_height
+// pixels; row padding described by raw_pitch is skipped. ErrNoImageData is
+// returned when the opened image has no direct 3-channel float buffer.
+func (p *Processor) Float3Image() ([][3]float32, error) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	if p.closed || p.handle == nil {
+		return nil, ErrClosed
+	}
+	data := p.handle.Float3Image()
+	if data == nil {
+		return nil, ErrNoImageData
+	}
+	return data, nil
+}
+
+// Float4Image returns a copy of LibRaw's direct 4-channel float raw buffer.
+//
+// Unpack must run first. The returned slice is owned by the caller and remains
+// valid after the Processor is closed. Its length is raw_width*raw_height
+// pixels; row padding described by raw_pitch is skipped. ErrNoImageData is
+// returned when the opened image has no direct 4-channel float buffer.
+func (p *Processor) Float4Image() ([][4]float32, error) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	if p.closed || p.handle == nil {
+		return nil, ErrClosed
+	}
+	data := p.handle.Float4Image()
+	if data == nil {
+		return nil, ErrNoImageData
+	}
+	return data, nil
+}
+
 // FourChannels returns a copy of the 4-channel postprocessing image buffer
 // built by Raw2Image or DcrawProcess.
 //

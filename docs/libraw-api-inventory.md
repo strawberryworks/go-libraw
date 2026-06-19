@@ -220,7 +220,7 @@ Statuses:
 | `libraw_processed_image_t` | `libraw_types.h` | `wrapped` | wrapped by ProcessedImage |
 | `libraw_raw_inset_crop_t` | `libraw_types.h` | `wrapped` | wrapped by RawInsetCrop |
 | `libraw_raw_unpack_params_t` | `libraw_types.h` | `wrapped` | wrapped by RawUnpackParams except custom_camera_strings, documented unsupported in docs/libraw-params-coverage.md |
-| `libraw_rawdata_t` | `libraw_types.h` | `wrapped` | summarized by RawDataSummary; raw_image bytes via Processor.RawImage |
+| `libraw_rawdata_t` | `libraw_types.h` | `wrapped` | summarized by RawDataSummary; raw buffers via Processor.RawImage, Color3Image, Color4Image, FloatImage, Float3Image, Float4Image |
 | `libraw_ricoh_makernotes_t` | `libraw_types.h` | `wrapped` | wrapped by RicohMakerNotes |
 | `libraw_samsung_makernotes_t` | `libraw_types.h` | `wrapped` | wrapped by SamsungMakerNotes |
 | `libraw_sensor_highspeed_crop_t` | `libraw_types.h` | `wrapped` | wrapped by SensorHighSpeedCrop |

@@ -7,8 +7,8 @@ by `Processor.Metadata`.
 
 - Scalar values and fixed arrays are copied into Go-owned values.
 - C-owned pointers are not exposed directly.
-- Raw pixel buffers are represented as presence flags in `RawDataSummary`; byte
-  access is intentionally deferred to the raw/image memory task.
+- Raw pixel buffers are represented as presence flags in `RawDataSummary`;
+  available raw payloads are copied through the raw image accessors.
 - Vendor-specific maker note structs remain out of scope for this task.
 
 ## Covered Structs
@@ -24,7 +24,7 @@ by `Processor.Metadata`.
 | `libraw_dng_levels_t` | `DNGLevels` | wrapped | Full scalar and fixed-array coverage; raw opcodes summarized. |
 | `libraw_P1_color_t` | `P1Color` | wrapped | Full fixed-array coverage. |
 | `struct ph1_t` | `PhaseOneData` | wrapped | Full scalar coverage through `ColorData`. |
-| `libraw_colordata_t` | `ColorData` | wrapped | Full scalar and fixed-array coverage; ICC profile pointer summarized by `ProfileLength` and `HasProfile`. |
+| `libraw_colordata_t` | `ColorData` | wrapped | Full scalar and fixed-array coverage, including full `cblack`; ICC profile pointer summarized by `ProfileLength` and `HasProfile`. |
 | `libraw_thumbnail_t` | `Thumbnail` | summarized | Metadata copied; thumbnail data pointer summarized by `HasData`. |
 | `libraw_thumbnail_item_t` | `ThumbnailItem` | wrapped | Full scalar coverage. |
 | `libraw_thumbnail_list_t` | `ThumbnailList` | wrapped | Count and bounded item snapshots copied. |
@@ -35,7 +35,7 @@ by `Processor.Metadata`.
 | `libraw_makernotes_lens_t` | `MakerNotesLens` | wrapped | Lens metadata only; not vendor maker-note structs. |
 | `libraw_lensinfo_t` | `LensInfo` | wrapped | Full scalar/string coverage including nested lens structs. |
 | `libraw_shootinginfo_t` | `ShootingInfo` | wrapped | Full scalar/string coverage. |
-| `libraw_rawdata_t` | `RawDataSummary` | summarized | Raw pixel pointers summarized; embedded metadata snapshots copied. |
+| `libraw_rawdata_t` | `RawDataSummary` | summarized | Raw pixel pointers summarized; raw payloads copied by image accessors; embedded metadata snapshots copied. |
 | `libraw_data_t` | `Metadata` | summarized | Core fields copied; params/rawparams are covered by TASK-007; vendor maker notes are out of scope. |
 | `libraw_processed_image_t` | `ProcessedImage` | wrapped | Covered by memory image APIs from TASK-006. |
 

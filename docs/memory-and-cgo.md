@@ -33,6 +33,11 @@ These APIs return copies owned by Go:
 
 - `Metadata`
 - `RawImage`
+- `Color3Image`
+- `Color4Image`
+- `FloatImage`
+- `Float3Image`
+- `Float4Image`
 - `ThumbnailData`
 - `MemImage`
 - `MemThumb`
@@ -65,8 +70,9 @@ methods first.
 ## File Writers
 
 `WritePPMTiff` and `WriteThumb` ask LibRaw to write directly to the target path.
-They do not return image bytes. Use `MemImage`, `MemThumb`, `RawImage`, or
-`ThumbnailData` when the caller needs bytes in memory.
+They do not return image bytes. Use `MemImage`, `MemThumb`, `RawImage`,
+`Color3Image`, `Color4Image`, `FloatImage`, `Float3Image`, `Float4Image`, or `ThumbnailData`
+when the caller needs pixels or bytes in memory.
 
 ## Callback Safety
 

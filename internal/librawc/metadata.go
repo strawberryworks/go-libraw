@@ -121,10 +121,18 @@ type DNGRawOpcode struct {
 
 // DNGLevels mirrors libraw_dng_levels_t, summarizing raw opcode payloads.
 type DNGLevels struct {
-	ParsedFields        uint32
-	DNGCBlack           [6]uint32
-	DNGBlack            uint32
+	ParsedFields uint32
+	// DNGCBlack holds the first 6 entries of dng_cblack: indices 0..3 are the
+	// per-channel black levels and 4..5 are the repeating black pattern's block
+	// height and width. DNGCBlackFull holds the full array, including the
+	// per-block pattern data that follows.
+	DNGCBlack     [6]uint32
+	DNGCBlackFull []uint32
+	DNGBlack      uint32
+	// DNGFCBlack is the float counterpart of DNGCBlack (first 6 entries);
+	// DNGFCBlackFull holds the full dng_fcblack array.
 	DNGFCBlack          [6]float32
+	DNGFCBlackFull      []float32
 	DNGFBlack           float32
 	DNGWhiteLevel       [4]uint32
 	DefaultCrop         [4]uint16
@@ -157,8 +165,13 @@ type P1Color struct {
 
 // ColorData mirrors libraw_colordata_t, summarizing profile payloads.
 type ColorData struct {
-	Curve                [0x10000]uint16
+	Curve [0x10000]uint16
+	// CBlack holds the first 6 entries of cblack: indices 0..3 are the
+	// per-channel black levels and 4..5 are the repeating black pattern's block
+	// height and width. CBlackFull holds the full array, including the per-block
+	// pattern data that follows.
 	CBlack               [6]uint32
+	CBlackFull           []uint32
 	Black                uint32
 	DataMaximum          uint32
 	Maximum              uint32
@@ -468,6 +481,12 @@ func convertDNGLevels(l *C.libraw_dng_levels_t) DNGLevels {
 		out.DNGCBlack[i] = uint32(l.dng_cblack[i])
 		out.DNGFCBlack[i] = float32(l.dng_fcblack[i])
 	}
+	out.DNGCBlackFull = make([]uint32, int(C.LIBRAW_CBLACK_SIZE))
+	out.DNGFCBlackFull = make([]float32, int(C.LIBRAW_CBLACK_SIZE))
+	for i := 0; i < int(C.LIBRAW_CBLACK_SIZE); i++ {
+		out.DNGCBlackFull[i] = uint32(l.dng_cblack[i])
+		out.DNGFCBlackFull[i] = float32(l.dng_fcblack[i])
+	}
 	for i := 0; i < 4; i++ {
 		out.DNGWhiteLevel[i] = uint32(l.dng_whitelevel[i])
 		out.DefaultCrop[i] = uint16(l.default_crop[i])
@@ -511,6 +530,10 @@ func convertColorData(c *C.libraw_colordata_t) ColorData {
 	}
 	for i := 0; i < 6; i++ {
 		out.CBlack[i] = uint32(c.cblack[i])
+	}
+	out.CBlackFull = make([]uint32, int(C.LIBRAW_CBLACK_SIZE))
+	for i := 0; i < int(C.LIBRAW_CBLACK_SIZE); i++ {
+		out.CBlackFull[i] = uint32(c.cblack[i])
 	}
 	for i := 0; i < 4; i++ {
 		out.LinearMax[i] = uint32(c.linear_max[i])

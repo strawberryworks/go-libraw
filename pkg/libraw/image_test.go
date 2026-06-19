@@ -87,6 +87,73 @@ func TestRawImageBeforeUnpack(t *testing.T) {
 	}
 }
 
+func TestDirectRawBuffersBeforeUnpack(t *testing.T) {
+	p := openProcessor(t)
+	if err := p.OpenFile(sampleRAW); err != nil {
+		t.Fatalf("OpenFile() error = %v", err)
+	}
+
+	ops := map[string]func() error{
+		"Color3Image": func() error { _, err := p.Color3Image(); return err },
+		"Color4Image": func() error { _, err := p.Color4Image(); return err },
+		"FloatImage":  func() error { _, err := p.FloatImage(); return err },
+		"Float3Image": func() error { _, err := p.Float3Image(); return err },
+		"Float4Image": func() error { _, err := p.Float4Image(); return err },
+	}
+	for name, op := range ops {
+		t.Run(name, func(t *testing.T) {
+			if err := op(); !errors.Is(err, ErrNoImageData) {
+				t.Fatalf("%s() before Unpack error = %v, want ErrNoImageData", name, err)
+			}
+		})
+	}
+}
+
+func TestDirectRawBuffersAbsentAfterUnpack(t *testing.T) {
+	p := openProcessor(t)
+	if err := p.OpenFile(sampleRAW); err != nil {
+		t.Fatalf("OpenFile() error = %v", err)
+	}
+	if err := p.Unpack(); err != nil {
+		t.Fatalf("Unpack() error = %v", err)
+	}
+
+	ops := map[string]func() (int, error){
+		"Color3Image": func() (int, error) {
+			data, err := p.Color3Image()
+			return len(data), err
+		},
+		"Color4Image": func() (int, error) {
+			data, err := p.Color4Image()
+			return len(data), err
+		},
+		"FloatImage": func() (int, error) {
+			data, err := p.FloatImage()
+			return len(data), err
+		},
+		"Float3Image": func() (int, error) {
+			data, err := p.Float3Image()
+			return len(data), err
+		},
+		"Float4Image": func() (int, error) {
+			data, err := p.Float4Image()
+			return len(data), err
+		},
+	}
+	for name, op := range ops {
+		t.Run(name, func(t *testing.T) {
+			n, err := op()
+			if err == nil {
+				t.Logf("%s() returned %d pixels; fixture exposes this direct buffer", name, n)
+				return
+			}
+			if !errors.Is(err, ErrNoImageData) {
+				t.Fatalf("%s() after Unpack error = %v, want ErrNoImageData", name, err)
+			}
+		})
+	}
+}
+
 func TestThumbnailData(t *testing.T) {
 	p := openProcessor(t)
 	if err := p.OpenFile(sampleThumbRAW); err != nil {
@@ -195,6 +262,11 @@ func TestImageAccessAfterCloseReturnsErrClosed(t *testing.T) {
 		"RawWidth":      func() error { _, e := p.RawWidth(); return e },
 		"RawHeight":     func() error { _, e := p.RawHeight(); return e },
 		"RawImage":      func() error { _, e := p.RawImage(); return e },
+		"Color3Image":   func() error { _, e := p.Color3Image(); return e },
+		"Color4Image":   func() error { _, e := p.Color4Image(); return e },
+		"FloatImage":    func() error { _, e := p.FloatImage(); return e },
+		"Float3Image":   func() error { _, e := p.Float3Image(); return e },
+		"Float4Image":   func() error { _, e := p.Float4Image(); return e },
 		"FourChannels":  func() error { _, e := p.FourChannels(); return e },
 		"ThumbnailData": func() error { _, e := p.ThumbnailData(); return e },
 	}
