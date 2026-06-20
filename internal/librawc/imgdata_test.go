@@ -3,6 +3,8 @@
 package librawc
 
 import (
+	"runtime"
+	"slices"
 	"testing"
 	"unsafe"
 )
@@ -94,5 +96,104 @@ func TestCopyPixelRowsFloat(t *testing.T) {
 	}
 	if got[0] != 1 || got[3] != 4 {
 		t.Fatalf("copyPixelRows = %v, want first 1 last 4", got)
+	}
+}
+
+func TestHandleDirectRawBuffersCopyRows(t *testing.T) {
+	h, err := New(0)
+	if err != nil {
+		t.Fatalf("New() error = %v", err)
+	}
+	defer h.Close()
+
+	const (
+		width    = 2
+		height   = 2
+		rowPitch = 40
+	)
+	h.ptr.sizes.raw_width = width
+	h.ptr.sizes.raw_height = height
+	h.ptr.sizes.raw_pitch = rowPitch
+
+	color3 := []uint16{
+		1, 2, 3, 4, 5, 6, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104,
+		7, 8, 9, 10, 11, 12, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204,
+	}
+	color4 := []uint16{
+		21, 22, 23, 24, 25, 26, 27, 28, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102,
+		29, 30, 31, 32, 33, 34, 35, 36, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202,
+	}
+	floatImage := []float32{
+		1.5, 2.5, 91, 92, 93, 94, 95, 96, 97, 98,
+		3.5, 4.5, 191, 192, 193, 194, 195, 196, 197, 198,
+	}
+	float3 := []float32{
+		10, 11, 12, 13, 14, 15, 91, 92, 93, 94,
+		16, 17, 18, 19, 20, 21, 95, 96, 97, 98,
+	}
+	float4 := []float32{
+		30, 31, 32, 33, 34, 35, 36, 37, 91, 92,
+		38, 39, 40, 41, 42, 43, 44, 45, 95, 96,
+	}
+
+	*(*unsafe.Pointer)(unsafe.Pointer(&h.ptr.rawdata.color3_image)) = unsafe.Pointer(&color3[0])
+	*(*unsafe.Pointer)(unsafe.Pointer(&h.ptr.rawdata.color4_image)) = unsafe.Pointer(&color4[0])
+	*(*unsafe.Pointer)(unsafe.Pointer(&h.ptr.rawdata.float_image)) = unsafe.Pointer(&floatImage[0])
+	*(*unsafe.Pointer)(unsafe.Pointer(&h.ptr.rawdata.float3_image)) = unsafe.Pointer(&float3[0])
+	*(*unsafe.Pointer)(unsafe.Pointer(&h.ptr.rawdata.float4_image)) = unsafe.Pointer(&float4[0])
+
+	gotColor3 := h.Color3Image()
+	if want := [][3]uint16{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {10, 11, 12}}; !slices.Equal(gotColor3, want) {
+		t.Fatalf("Color3Image() = %v, want %v", gotColor3, want)
+	}
+
+	gotColor4 := h.Color4Image()
+	if want := [][4]uint16{{21, 22, 23, 24}, {25, 26, 27, 28}, {29, 30, 31, 32}, {33, 34, 35, 36}}; !slices.Equal(gotColor4, want) {
+		t.Fatalf("Color4Image() = %v, want %v", gotColor4, want)
+	}
+
+	gotFloatImage := h.FloatImage()
+	if want := []float32{1.5, 2.5, 3.5, 4.5}; !slices.Equal(gotFloatImage, want) {
+		t.Fatalf("FloatImage() = %v, want %v", gotFloatImage, want)
+	}
+
+	gotFloat3 := h.Float3Image()
+	if want := [][3]float32{{10, 11, 12}, {13, 14, 15}, {16, 17, 18}, {19, 20, 21}}; !slices.Equal(gotFloat3, want) {
+		t.Fatalf("Float3Image() = %v, want %v", gotFloat3, want)
+	}
+
+	gotFloat4 := h.Float4Image()
+	if want := [][4]float32{{30, 31, 32, 33}, {34, 35, 36, 37}, {38, 39, 40, 41}, {42, 43, 44, 45}}; !slices.Equal(gotFloat4, want) {
+		t.Fatalf("Float4Image() = %v, want %v", gotFloat4, want)
+	}
+
+	copy(color3, []uint16{99, 99, 99})
+	if gotColor3[0] != [3]uint16{1, 2, 3} {
+		t.Fatalf("Color3Image() result aliases C memory: got[0] = %v", gotColor3[0])
+	}
+	runtime.KeepAlive(color3)
+	runtime.KeepAlive(color4)
+	runtime.KeepAlive(floatImage)
+	runtime.KeepAlive(float3)
+	runtime.KeepAlive(float4)
+}
+
+func TestHandleRawRowPitchFallsBackToDensePitch(t *testing.T) {
+	h, err := New(0)
+	if err != nil {
+		t.Fatalf("New() error = %v", err)
+	}
+	defer h.Close()
+
+	h.ptr.sizes.raw_width = 3
+	h.ptr.sizes.raw_height = 4
+	h.ptr.sizes.raw_pitch = 0
+
+	width, height := h.rawDimensions()
+	if width != 3 || height != 4 {
+		t.Fatalf("rawDimensions() = %d, %d; want 3, 4", width, height)
+	}
+	if got := h.rawRowPitch(4, 2); got != 24 {
+		t.Fatalf("rawRowPitch() = %d, want dense pitch 24", got)
 	}
 }
